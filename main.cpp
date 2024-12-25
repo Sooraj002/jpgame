@@ -2,31 +2,35 @@
 #include <SDL.h>
 #define WIDTH 900
 #define HEIGHT  600
-#define STEP 10
+#define STEP 5 
 
 class Player{
 	int x;
 	int y;
+	int velocityX;
+	int velocityY;
+
 	public:
-	Player(int xVal, int yVal){
-		x = xVal;
-		y = yVal;
+	Player(int initialX, int initialY, int initialVelocityX, int initialVelocityY){
+		velocityX = initialVelocityX;
+		velocityY = initialVelocityY;
+		x = initialX;
+		y = initialY;
 	}
 	int getX() {return x;}
 	int getY() {return y;}
 	void moveUp(){
-		y -= 10;	
+		y -= STEP; 
 	}
 	void moveDown(){
-		y += 10;
+		y += STEP;
 	}
 	void moveLeft(){
-		x -= 10;
+		x -= STEP;
 	}
 	void moveRight(){
-		x += 10;
-	}
-
+		x += STEP;
+	}	
 };
 
 void updatePlayer(Player player, SDL_Surface* surface, SDL_Window* window){
@@ -40,7 +44,7 @@ void updatePlayer(Player player, SDL_Surface* surface, SDL_Window* window){
 }
 
 int main(int argc, char *argv[]){
-	Player p1(0,0);
+	Player p1(200,100,0,0);
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -88,8 +92,13 @@ int main(int argc, char *argv[]){
 						p1.moveRight();
 						updatePlayer(p1, surface, window);
 						break;
-
-
+					case ' ':
+						p1.moveUp();
+						updatePlayer(p1, surface, window);
+						SDL_Delay(100);
+						p1.moveDown();
+						updatePlayer(p1, surface, window);
+						break;
 				}
 			}
 
