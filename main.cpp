@@ -34,13 +34,13 @@ class Player{
 };
 
 void updatePlayer(Player player, SDL_Surface* surface, SDL_Window* window){
-	int x = player.getX();
-	int y = player.getY();
-	SDL_Rect BlackScreen = (SDL_Rect){0, 0, WIDTH, HEIGHT};
-	SDL_FillRect(surface,&BlackScreen, 0x00000000);
-	SDL_Rect newPosition = (SDL_Rect){x,y,50,50};
-	SDL_FillRect(surface, &newPosition, 0xffffffff);
-	SDL_UpdateWindowSurface(window);
+    int x = player.getX();
+    int y = player.getY();
+    SDL_Rect BlackScreen = (SDL_Rect){0, 0, WIDTH, HEIGHT};
+    SDL_FillRect(surface,&BlackScreen, 0x00000000);
+    SDL_Rect newPosition = (SDL_Rect){x,y,50,50};
+    SDL_FillRect(surface, &newPosition, 0xffffffff);
+    SDL_UpdateWindowSurface(window);
 }
 
 int main(int argc, char *argv[]){
