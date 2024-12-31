@@ -3,4 +3,4 @@
 ---
  run this project with following command
  ---
-```g++ `sdl2-config --cflags` -o main main.cpp `sdl2-config --libs```
+``` g++ `sdl2-config --cflags` -o main main.cpp gameLoop.cpp PlayerMove.cpp `sdl2-config --libs` ```
