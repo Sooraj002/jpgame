@@ -4,34 +4,18 @@
 #define SCREEN_WIDTH 1280
 
 
-int main(){
+// Function Declarations
+bool initialize(SDL_Window *&window, SDL_Surface *&windowSurface);
+void cleanUp(SDL_Window *window);
 
-    // SDL WINDOW AND SURFACE INITIALIZAITON
-    SDL_Window * window =NULL;
-    SDL_Surface* windowSurface = NULL;
-    
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0){
-        std::cout << "error in initializtion"  << SDL_GetError() << std::endl;
-        return -1;
-    } else {
-        std::cout << "SDL initialized" << std::endl;
-    }
-    
-    window = SDL_CreateWindow("Jumper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-    
-    if (!window ){
-        std:: cout << "window not initialized" << std:: endl;
-        SDL_Quit();
+int main() {
+    // Initialize SDL and create window
+    SDL_Window* window = nullptr;
+    SDL_Surface* windowSurface = nullptr;
+
+    if (!initialize(window, windowSurface)) {
         return -1;
     }
-    
-    windowSurface = SDL_GetWindowSurface(window);
-    
-    if (!windowSurface){
-        std:: cout << "windowSurface not initialized" << std:: endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-    } 
 
     // GAME LOOP
     bool isRunning = true;
@@ -68,8 +52,41 @@ int main(){
     
     }
     
+  cleanUp(window);  
+  return 0;
+}
 
+
+
+// SDL Initialization Function
+bool initialize(SDL_Window *&window, SDL_Surface *&windowSurface) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        std::cerr << "Error in initialization: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    std::cout << "SDL initialized" << std::endl;
+
+    window = SDL_CreateWindow("Jumper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    if (!window) {
+        std::cerr << "Window not initialized: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return false;
+    }
+
+    windowSurface = SDL_GetWindowSurface(window);
+    if (!windowSurface) {
+        std::cerr << "Window surface not initialized: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return false;
+    }
+
+    return true;
+}
+
+// Clean up Function
+void cleanUp(SDL_Window *window) {
     SDL_DestroyWindow(window);
     SDL_Quit();
-    return 0;
 }
